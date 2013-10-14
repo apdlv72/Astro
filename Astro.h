@@ -127,7 +127,23 @@ public:
 	uint16_t getDayOfYear(uint8_t dom, uint8_t month, uint16_t year);
 
 	// dayOfYer: 1 means Jan. 1st, 365 means dec. 31st (no leap year) resp. 366 (leap year)
-	void getTimes(int dayOfYear, float & sunrise, float & sundown);
+	void getTimes(uint16_t dayOfYear, float & sunrise, float & sundown);
+
+	boolean isSunVisible(uint8_t minute, uint8_t hour, uint8_t dom, uint8_t month, uint16_t year)
+	{
+		uint16_t doy = getDayOfYear(dom, month, year);
+		float sr, sd, now = (1.0f/60)*minute+hour;		
+		getTimes(dayOfYear, sr, sd);
+		return sr<=now && now<sd;
+	}
+
+	boolean isSunVisible(uint8_t minute, uint8_t hour, uint8_t dom, uint8_t month)
+	{
+		uint16_t doy = getDayOfYear(dom, month);
+		float sr, sd, now = (1.0f/60)*minute+hour;		
+		getTimes(dayOfYear, sr, sd);
+		return sr<=now && now<sd;
+	}
 
 	// formats a fractional hour (e.g. 7.5) into "07:30" and writes it into the given buffer.
 	// will return 0 if hour was out of range (0,...,24)

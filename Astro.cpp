@@ -78,7 +78,7 @@ uint16_t Astro::getDayOfYear(uint8_t dom, uint8_t month, uint16_t year)
 	return _getDayOfYear(dom, month, isLeapYear(year));
 }
 
-void Astro::getTimes(int dayOfYear, float & sunrise, float & sundown)
+void Astro::getTimes(uint16_t dayOfYear, float & sunrise, float & sundown)
 {
 	float doy = dayOfYear;
 
