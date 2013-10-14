@@ -1,0 +1,26 @@
+#######################################
+# Syntax Coloring Map For Astro lib
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+Astro	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setTimezone		KEYWORD2
+setLocation		KEYWORD2
+setYear			KEYWORD2
+setDaylightSaving	KEYWORD2
+isLeapYear		KEYWORD2
+getDayOfYear		KEYWORD2
+toHHMM			KEYWORD2
+getTimes		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
