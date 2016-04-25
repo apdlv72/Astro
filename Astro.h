@@ -133,7 +133,7 @@ public:
 	{
 		uint16_t doy = getDayOfYear(dom, month, year);
 		float sr, sd, now = (1.0f/60)*minute+hour;		
-		getTimes(dayOfYear, sr, sd);
+		getTimes(doy, sr, sd);
 		return sr<=now && now<sd;
 	}
 
@@ -141,13 +141,15 @@ public:
 	{
 		uint16_t doy = getDayOfYear(dom, month);
 		float sr, sd, now = (1.0f/60)*minute+hour;		
-		getTimes(dayOfYear, sr, sd);
+		getTimes(doy, sr, sd);
 		return sr<=now && now<sd;
 	}
 
 	// formats a fractional hour (e.g. 7.5) into "07:30" and writes it into the given buffer.
 	// will return 0 if hour was out of range (0,...,24)
 	int toHHMM(float hour, char buff[6]);
+
+	void dump();
 
 private:
 
@@ -167,8 +169,12 @@ private:
 	int8_t  mDaylight;
 	// longitude as is (thus as passed via setLocation())
 	float   mLongitude;
-	// latitute in radiants 
+	// latitude in radiants 
 	float   mLatitudeRad;
+	
+	// TODO: for some reason, mLatitudeRad gets overwritten ... 
+	// define some extra bytes here that will be tampered instead. 
+	//char victims[50];
 };
 
 #endif
