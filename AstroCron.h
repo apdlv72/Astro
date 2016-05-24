@@ -16,9 +16,17 @@ class AstroCron {
         _timezone  = NULL;
     }
 
-    void setLocation(float lo, float la) {
-        _long = lo;
-        _lat  = la;
+    void setLocation(float latitude, float longitude) {
+        _lat  = latitude;
+        _long = longitude;
+    }
+    
+    float getLongitude() {
+      return _long;
+    }
+
+    float getLatitude() {
+      return _lat;
     }
 
     void setTimezone(Timezone * tz) {
@@ -79,14 +87,20 @@ class AstroCron {
 
         //time_t now_utc = now();
         time_t now_loc = _timezone->toLocal(now_utc, &_tcr);
-        //if (D) { _log(fn + "local time: " + printTime(now_loc, _tcr->abbrev)); }
+        if (D) {
+            _log(fn + "utc: time: " + now_utc);
+            _log(fn + "loc: time: " + now_loc);
+        }
 
         int d = day(now_utc);
         int m = month(now_utc);
         int y = year(now_utc);
 
         Astro astro;
-        astro.setLocation(_long, _lat);
+        if (D) {
+            _log(fn + "astro.setLocation(" + _long + "," + _lat + ")");
+        }
+        astro.setLocation(_lat, _long);
         astro.setTimezone(TZ_UTC); // compute all times in utc
         astro.setDaylightSaving(0);
         astro.setYear(y); // needed to check if year has leap day
@@ -237,7 +251,7 @@ class AstroCron {
   protected:
 
     virtual void _log(String msg) {
-        if (_D) Serial.println(msg);
+        Serial.println(msg);
     }
 
     const static String cl; // = "AstroCron::";
