@@ -228,10 +228,7 @@ class AstroCron {
             }
         }
         _lastDow = dow;
-        rtv = handleSchedules(now_utc, mon, dom, dow, hrs, min, D);
-        _log(fn + "handleSchedules returned " + rtv);
-
-        return rtv;
+        return handleSchedules(now_utc, mon, dom, dow, hrs, min, D);
     }
 
     virtual void onSuntimeChanged() {
