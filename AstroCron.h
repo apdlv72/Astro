@@ -7,8 +7,7 @@ class AstroCron {
 
   public:
 
-    AstroCron(boolean D=false) {
-        _D        =  D;
+    AstroCron() {
         _lastDow   = -1;
         _lastHHMM  = -1;
         _sunrise   = -1;
@@ -97,18 +96,15 @@ class AstroCron {
         int y = year(now_utc);
 
         Astro astro;
-        if (D) {
-            _log(fn + "astro.setLocation(" + _long + "," + _lat + ")");
-        }
+        if (D) _log(fn + "astro.setLocation(" + _long + "," + _lat + ")");
+
         astro.setLocation(_lat, _long);
         astro.setTimezone(TZ_UTC); // compute all times in utc
         astro.setDaylightSaving(0);
         astro.setYear(y); // needed to check if year has leap day
         uint16_t doy = astro.getDayOfYear(d, m, y);
 
-        if (D) {
-            _log(fn + "" + y + "-" + m + "-" + d + ", doy: " + doy);
-        }
+        if (D) _log(fn + "" + y + "-" + m + "-" + d + ", doy: " + doy);
 
         float sr, sd; // sun rise, sun down
         astro.getTimes(doy, sr, sd);
@@ -179,7 +175,8 @@ class AstroCron {
     int handle(time_t now_utc, boolean D=false) {
         String fn = cl+"handle: ";
         int rtv = 0;
-        if (D) { _log(fn + "entered, now_utc=" + now_utc); }
+
+        if (D) _log(fn + "entered, now_utc=" + now_utc);
 
         if (0==now_utc) {
             if (!isTimeKnown()) {
@@ -207,23 +204,23 @@ class AstroCron {
         }
 
         if (_lastHHMM<_sunrise && _sunrise<=hhmm) {
-            _log(fn+"_lastHHMM=" + _lastHHMM+ ", _sunrise=" + _sunrise + ", hhmm=" + hhmm + " -> onSunrise()");
+            if (D) _log(fn+"_lastHHMM=" + _lastHHMM+ ", _sunrise=" + _sunrise + ", hhmm=" + hhmm + " -> onSunrise()");
             onSunrise();
         }
         if (_lastHHMM<_sundown && _sundown<=hhmm) {
-            _log(fn+"_lastHHMM=" + _lastHHMM+ ", _sundown=" + _sundown + ", hhmm=" + hhmm + " -> onSundown()");
+            if (D) _log(fn+"_lastHHMM=" + _lastHHMM+ ", _sundown=" + _sundown + ", hhmm=" + hhmm + " -> onSundown()");
             onSundown();
         }
 
         _lastHHMM = hhmm;
 
         if (_lastDow != dow) {
-            if (D) { _log(fn + "dow: changed: change=>computeSunTime\n"); }
+            if (D) _log(fn + "dow: changed: change=>computeSunTime\n");
             int16_t sunriseOld = _sunrise;
             int16_t sundownOld = _sundown;
             AstroCron::computeSunTime(now_utc, D);
             if (sunriseOld!=_sunrise || sundownOld!=_sundown) {
-                _log(fn + "onSuntimeChanged()");
+                if (D) _log(fn + "onSuntimeChanged()");
                 onSuntimeChanged();
             }
         }
@@ -257,7 +254,6 @@ class AstroCron {
     int16_t _sundown;   //  = -1; // current day's _sundown time (hh*100=mm)
 
   private:
-    boolean          _D;
     boolean          _configChanged = true;
     boolean          _timeKnown     = false;
     float            _long = 0;
