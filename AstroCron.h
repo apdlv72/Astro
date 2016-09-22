@@ -158,8 +158,11 @@ class AstroCron {
         return _timeKnown;
     }
 
-    int handle() {
-        return handle(0 /* get current time yourself */, false /* no debug */);
+    int handle(boolean D=false) {
+        return handle(
+                (time_t)0 /* get current time yourself */,
+                D         /* no debug */
+               );
     }
 
     void setConfigChanged(boolean changed=true) {
@@ -176,7 +179,7 @@ class AstroCron {
         String fn = cl+"handle: ";
         int rtv = 0;
 
-        if (D) _log(fn + "entered, now_utc=" + now_utc);
+        if (D) _log(fn + "entered, now_utc=" + now_utc + ", D=" + D);
 
         if (0==now_utc) {
             if (!isTimeKnown()) {
@@ -197,9 +200,14 @@ class AstroCron {
         int min  = minute(now_loc);  // current local minute
         int hhmm = (100*hrs)+min;
 
-        if (_lastHHMM==hhmm) {
+        if (_lastHHMM==hhmm && !D) {
+            if (D) _log(fn + "no change of hhmm");
             if (!hasConfigChanged()) {
+                if (D) _log(fn + "no config change");
                 return -1; // String("no change");
+            }
+            else {
+                if (D) _log(fn + "config changed");
             }
         }
 

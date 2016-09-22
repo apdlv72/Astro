@@ -74,7 +74,7 @@ uint8_t Astro::getDaysInMonth(int month)
 	case 2: return 28+mYear.leapDay;
 	case 1: case 3: case 5: case 7: case 8: case 10: case 12: return 31;
 	}
-	return 0;
+	return 30;
 }
 
 uint16_t Astro::getDayOfYear(uint8_t dom, uint8_t month)
