@@ -159,8 +159,8 @@ uint16_t Astro::_getDayOfYear(uint8_t dom, uint8_t month, uint8_t leapDay)
 	uint16_t daysBefore = leapDay;
 	switch (month)
 	{
-		case  1: daysBefore  = 0; break;
-		case  2: daysBefore  = 31; break;
+		case  1: daysBefore += 0; break;
+		case  2: daysBefore += 31; break;
 		case  3: daysBefore += 31+28; break;
 		case  4: daysBefore += 31+28+31; break;
 		case  5: daysBefore += 31+28+31+30; break;
