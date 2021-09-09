@@ -141,6 +141,10 @@ int Astro::toHHMM(float hour, char buff[6])
 	int full = floor(hour);
 	int mins = round((hour-full)*60);
 
+        // 6.999 would convert to 6:60, so need to consider minutes>59:
+        full += mins/60;
+        mins %= 60;
+
 	buff[0] = '0'+(full/10);
 	buff[1] = '0'+(full%10);
 	buff[2] = ':';
